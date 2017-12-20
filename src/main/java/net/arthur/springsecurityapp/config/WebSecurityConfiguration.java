@@ -1,11 +1,14 @@
 package net.arthur.springsecurityapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,21 +17,35 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String USER = "USER";
     private static final String ADMIN = "ADMIN";
-    private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public void setUserDetailsService(final UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private UserDetailsService userDetailsService;
 
     @Autowired
     public void setbCryptPasswordEncoder(final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @Autowired
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+
+        return authenticationProvider;
     }
 
     @Override
@@ -40,7 +57,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/welcome").hasAnyRole(USER, ADMIN)
                     .antMatchers("/admin").hasRole(ADMIN)
-                    .anyRequest().fullyAuthenticated()
                 .and()
                     .formLogin()
                     .loginPage("/login")

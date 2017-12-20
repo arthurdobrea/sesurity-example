@@ -19,6 +19,9 @@
 <body>
 
 <div class="container">
+    <td class="greeting_2">
+        You are logged as ${pageContext.request.userPrincipal.name}
+    </td>
 
     <c:if test="${pageContext.request.userPrincipal.name != null}">
         <form id="logoutForm" method="POST" action="${contextPath}/logout">

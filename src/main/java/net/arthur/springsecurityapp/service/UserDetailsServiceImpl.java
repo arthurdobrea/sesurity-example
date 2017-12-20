@@ -15,11 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
-@Service
+@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
+
+    public UserDetailsServiceImpl() {
+
+    }
+
+    public UserDetailsServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

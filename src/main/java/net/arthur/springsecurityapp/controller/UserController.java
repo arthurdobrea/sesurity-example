@@ -59,8 +59,10 @@ public class UserController {
 
         return "login";
     }
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String index(){return "login"; }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/","/welcome"}, method = RequestMethod.GET)
     public String welcome() {
         return "welcome";
     }
