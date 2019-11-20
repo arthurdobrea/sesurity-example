@@ -10,12 +10,14 @@ import javax.servlet.ServletRegistration;
 
 public class WebAppInitializer implements WebApplicationInitializer {
 
+    //Dev commit
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         final AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebAppConfiguration.class);
         ctx.setServletContext(servletContext);
 
+        //Again dev commit
         final ServletRegistration.Dynamic servlet = servletContext.addServlet(
                 "dispatcher", new DispatcherServlet(ctx)
         );
