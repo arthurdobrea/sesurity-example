@@ -22,7 +22,9 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "net.arthur.springsecurityapp.dao")
 public class HibernateConfiguration {
 
-
+    //DEV commit
+    //Test Commit
+    //Again Dev commit
     private final Environment environment;
 
     @Autowired
