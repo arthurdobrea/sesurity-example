@@ -22,6 +22,8 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "net.arthur.springsecurityapp.dao")
 public class HibernateConfiguration {
 
+
+    //1
     private final Environment environment;
 
     @Autowired
