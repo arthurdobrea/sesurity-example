@@ -23,7 +23,7 @@ import java.util.Properties;
 public class HibernateConfiguration {
 
 
-    //13442344234234
+    //Art commit
     private final Environment environment;
 
     @Autowired
