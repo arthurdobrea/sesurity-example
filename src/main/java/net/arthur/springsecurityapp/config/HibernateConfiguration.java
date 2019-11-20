@@ -24,6 +24,7 @@ public class HibernateConfiguration {
 
 
     //Art commit
+    //Test commit
     private final Environment environment;
 
     @Autowired
